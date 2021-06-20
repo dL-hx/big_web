@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- ul#ul>li*3 -->
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+
+    <script>
+        // var list = document.querySelectorAll('li')
+        // function showTxt(ev) {
+        //     console.log('ev',ev);
+        //     console.log(ev.target.innerHTML);
+        // }
+        // for (let i = 0; i < list.length; i++) {
+        //     const element = list[i];
+        //     element.onclick = showTxt
+        // }
+
+
+        // 采用事件委托优化 1 
+        // var oUl = document.getElementById('ul')
+        // oUl.onclick = function (event) {
+        //     let ev = event || window.event
+        //     let tar = ev.target || ev.srcElement
+
+        //     if (tar.nodeName.toLowerCase() == 'li') {
+        //         console.log(tar.innerHTML);
+        //     }
+        // }
+
+        function showTxt(ev) {
+            // console.log('ev', ev);
+            let tar = ev.target || ev.srcElement
+            if (tar.nodeName.toLowerCase() === 'li') {
+                console.log(tar.innerHTML);
+            }
+        }
+
+        var oUl = document.getElementById('ul')
+        // true , 捕获阶段
+        // false , 冒泡阶段
+        oUl.addEventListener('click', showTxt, true)
+    </script>
+</body>
+
+</html>

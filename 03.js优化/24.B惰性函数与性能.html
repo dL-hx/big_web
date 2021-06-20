@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+    <script>
+        var oBtn = document.getElementById('btn')
+        function foo() {
+            console.log(this);
+        }
+/*         function addEvent(element, type, fn) {
+            if (element.addEventListener) {
+                //支持
+                element.addEventListener(type, fn, false);
+            } else if (element.attachEvent) {
+                element.attachEvent("on" + type, fn);
+            } else {
+                element["on" + type] = fn;
+            }
+        } */
+
+
+        function addEvent(element, type, fn) {
+            if (element.addEventListener) {
+                //支持
+                addEvent = element.addEventListener(type, fn, false);
+            } else if (element.attachEvent) {
+                addEvent= element.attachEvent("on" + type, fn);
+            } else {
+                addEvent=element["on" + type] = fn;
+            }
+            return fn
+        }
+        addEvent(oBtn, 'click', foo)
+
+    </script>
+</body>
+
+</html>
