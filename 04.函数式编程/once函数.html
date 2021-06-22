@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">pay</button>
+    <script>
+        var oBtn = document.getElementById('btn')
+
+        const myOnce = function (fn) {
+            let done = false
+            return function () {
+                if (!done) {
+                    done = true
+                    return fn.apply(this, arguments)
+                }
+            }
+
+        }
+
+
+        // 金钱支付, 多次点击只会触发一次
+        const pay = myOnce(function (money, name) {
+            console.log(`支付:${money}RMB-姓名${name}`);
+        })
+
+
+        
+        oBtn.onclick = pay.bind(this, 5,'张三')
+    </script>
+</body>
+
+</html>
