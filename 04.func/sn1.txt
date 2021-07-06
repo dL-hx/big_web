@@ -1,0 +1,763 @@
+函数式编程范式
+一、高阶函数
+使用高阶函数的意义：抽象可以帮我们屏蔽细节，只需要关注于我们的目标。高阶函数是用来抽象通用的问题。
+
+1. 函数作为参数
+function forEach (array, fn) {
+  for (let i = 0; i < array.length; i++) {
+    fn(array[i])
+  }
+}
+
+function filter (array, fn) {
+  const res = []
+  for (let i = 0; i < array.length; i++) {
+    if(fn(array[i])) {
+      res.push(array[i])
+    }
+  }
+  return res
+}
+
+const arr = [1, 2, 4, 5, 2]
+
+forEach(arr, console.log)
+console.log(filter(arr, function (item) {
+  return item % 2 === 0
+}))
+2. 函数作为返回值
+function makeFn () {
+  let msg = 'hello function'
+  return function () {
+    console.log(msg)
+  }
+}
+
+const fn = makeFn()
+fn() // hello function
+
+makeFn()() // hello function
+应用：once函数 只执行一次的函数，比如说支付情况，无论用户点多少次，这个函数都只执行一次
+
+function once(fn) {
+  let done = false
+  return function () {
+    if(!done) {
+      done = true
+      fn.apply(this, arguments)
+    }
+  }
+}
+
+let pay = once(function (money) {
+  console.log(`支付了${money}元`)
+})
+
+pay(1) // 支付了1元
+pay(2)
+pay(3)
+常用的高阶函数：
+
+forEach/map/filter/every/some/find/findIndex/reduce/sort
+
+// 模拟常用的高阶函数：map every some
+const arr = [1, 2, 3, 4]
+
+// map 
+const map = (arr, fn) => {
+  let result = []
+  for(let item of arr) {
+    result.push(fn(item))
+  }
+  return result
+}
+console.log(map(arr, val => val * val)) // [ 1, 4, 9, 16 ]
+
+// every
+const every = (arr, fn) => {
+  for(let item of arr) {
+    if(!fn(item))return false
+  }
+  return true
+}
+console.log(every(arr, v => v > 0)) // true
+
+// some
+const some = (arr, fn) => {
+  for(let item of arr) {
+    if(fn(item))return true
+  }
+  return false
+}
+console.log(some(arr, v => v % 2 == 0)) // true
+二、闭包
+函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。可以在一个作用域中调用一个函数的内部函数并访问到该函数的作用域中的成员。
+
+本质：函数在执行的时候会放到一个执行栈上，当函数执行完毕之后会从执行栈移除，但是堆上的作用域成员因为外部引用不能释放，因此内部函数依然可以访问外部函数的成员
+
+function makeFn () {
+  let msg = 'hello function'
+  return function () {
+    console.log(msg)
+  }
+}
+
+const fn = makeFn()
+fn() // hello function
+闭包的应用：
+
+function makePower(power) {
+  return function (num) {
+    return Math.pow(num, power)
+  }
+}
+
+// 求平方
+let power2 = makePower(2)
+let power3 = makePower(3)
+
+console.log(power2(4))
+console.log(power2(5))
+console.log(power3(4))
+三、纯函数
+相同的输入永远会得到相同的输出
+
+没有任何可观察的副作用
+
+类似数学中的函数
+
+lodash是一个纯函数的功能库，提供了对数组、数字、对象、字符串、函数等操作的一些方法
+
+数组的slice和splice分别是纯函数和不纯的函数
+
+slice返回数组中的指定部分，不改变原数组
+splice对数组进行操作返回该数组，会改变原数组
+// 纯函数slice和不纯函数splice
+
+let arr = [1, 2, 3, 4, 5]
+
+console.log(arr.slice(0, 3))
+console.log(arr.slice(0, 3))
+console.log(arr.slice(0, 3))
+
+console.log(arr.splice(0, 3))
+console.log(arr.splice(0, 3))
+console.log(arr.splice(0, 3))
+
+function getSum(n1, n2) {
+  return n1 + n2
+}
+
+console.log(1, 2)
+console.log(1, 2)
+console.log(1, 2)
+函数式编程不会保留计算中间的结果，所以变量是不可变的（无状态的）
+
+我们可以把一个函数的执行结果交给另一个函数去处理
+
+1. lodash 纯函数库
+// 演示 lodash
+// first  last toUpper reverse each includes find findIndx
+const _ = require('lodash')
+const arr = ['jal', 'cathy', 'yibo', 'lucy']
+
+console.log(_.first(arr))
+console.log(_.last(arr))
+
+console.log(_.toUpper(_.first(arr)))
+
+console.log(_.reverse(arr))
+
+const r = _.each(arr, (item, index) => {
+  console.log(item, index)
+})
+console.log(r)
+缓存纯函数结果案例:
+
+// 记忆函数
+const _ = require('lodash')
+
+function getArea (r) {
+  console.log(r)
+  return Math.PI * r * r * r
+}
+
+// let getAreaWithMemory = _.memoize(getArea)
+// console.log(getAreaWithMemory(4))
+// console.log(getAreaWithMemory(4))
+// console.log(getAreaWithMemory(4))
+// console.log(getAreaWithMemory(4))
+
+// 模拟memoize的实现
+function memoize(fn) {
+  const cache = {}
+  return function () {
+    let key = JSON.stringify(arguments)
+    cache[key] = cache[key] || fn.apply(fn, arguments)
+    return cache[key]
+  }
+}
+
+let getAreaWithMemory = memoize(getArea)
+console.log(getAreaWithMemory(4))
+console.log(getAreaWithMemory(4))
+console.log(getAreaWithMemory(4))
+console.log(getAreaWithMemory(4))
+2. 纯函数的好处
+可缓存
+因为纯函数对相同的输入始终有相同的结果，所以可以把纯函数的结果缓存起来
+可测试
+纯函数让测试更加方便
+并行处理
+在多线程环境并行操作共享的内存数据可能会出现意外情况
+纯函数不需要访问共享的内存数据，所以在并行环境下可以任意运行纯函数（Web Worker）
+3. 没有任何可观察的副作用
+纯函数对于相同的输入永远会得到相同的输出，而且没有任何可观察的副作用
+// 不纯的，函数的返回值依赖外部的变量
+let mini = 18
+function checkAge (age) {
+  return age >= mini
+}
+
+// 纯的（有硬编码，后续可以通过柯里化解决）
+function checkAge2 (age) {
+  let mini = 18
+  return age >= mini
+}
+副作用让一个函数变得不纯（如上例的checkAge中的mini是全局的），纯函数的根据相同的输入返回相同的输出，如果函数依赖于外部的状态就无法保证输出相同，就会带来副作用。
+
+副作用的来源：
+
+配置文件
+
+数据库
+
+获取用户的输入
+
+所有的外部交互都有可能代理副作用，副作用也是的方法通用性下降不适合扩展和可重用性，同时副作用会给程序中带来安全隐患给程序员带来不确定性，但是副作用不可能完全禁止，尽可能控制他们在可控范围内发生。
+
+四、柯里化
+当一个函数有多个参数的时候，先传递一部分参数调用它（这部分参数以后永远不变）
+然后返回一个新的函数接受剩余的参数，返回结果
+1. 使用柯里化解决上一个案例中的硬编码的问题：
+// 柯里化演示
+// function checkAge (age) {
+//   let mini = 18
+//   return age >= mini
+// }
+
+// 普通的纯函数
+function checkAge (mini, age) {
+  return age >= mini
+}
+
+console.log(checkAge(18, 20))
+console.log(checkAge(18, 24))
+console.log(checkAge(22, 24))
+
+// 闭包，高阶函数，函数的柯里化
+function saveMini (mini) {
+  return function (age) {
+    return age >= mini
+  }
+}
+
+// ES6 写法, 同上
+// const saveMini = mini => age => age >= mini
+
+const checkAge18 = saveMini(18)
+const checkAge22 = saveMini(22)
+console.log(checkAge18(20))
+console.log(checkAge18(24))
+console.log(checkAge22(24))
+2. lodash中的柯里化函数
+_.curry(func)
+
+功能：创建一个函数，该函数接受一个或多个func的参数，如果func所需要的参数都被提供则执行func并返回执行的结果，否则继续返回改函数并等待接受剩余的参数。
+参数：需要柯里化的函数
+返回值：柯里化后的函数
+// _.curry(func)
+const _ = require('lodash')
+
+function getSum (a, b, c) {
+  return a + b + c
+}
+
+const curried = _.curry(getSum)
+console.log(curried(1, 2, 3)) // 6
+
+console.log(curried(1)(2, 3))// 6
+
+console.log(curried(1, 2)(3))// 6
+案例：
+
+// 柯里化案例
+// ''.match(/\s+/g)
+// ''.match(/\d+/g)
+
+const _ = require('lodash')
+
+const match = _.curry(function (reg, str) {
+  return str.match(reg)
+})
+
+const haveSpace = match(/\s+/g)
+
+console.log(haveSpace('hello world')) // [ ' ' ]
+console.log(haveSpace('hello')) // null
+
+const haveNumber = match(/\d+/g)
+
+console.log(haveNumber('123abc456def789')) // [ '123', '456', '789' ]
+console.log(haveNumber('jal')) // null
+
+
+const filter = _.curry(function (func, arr) {
+  return arr.filter(func)
+})
+
+console.log(filter(haveSpace, ['hello world', 'Ji Ailing', 'cathy', 'yibo', 'Wang Yibo']))
+// [ 'hello world', 'Ji Ailing', 'Wang Yibo' ]
+
+const findSpace = filter(haveSpace)
+console.log(findSpace(['hello world', 'Ji Ailing', 'cathy', 'yibo', 'Wang Yibo']))
+// [ 'hello world', 'Ji Ailing', 'Wang Yibo' ]
+3. 模拟实现柯里化
+function getSum (a, b, c) {
+  return a + b + c
+}
+
+const myCurried = curry(getSum)
+console.log(myCurried(1, 2, 3)) // 6
+console.log(myCurried(1)(2, 3))// 6
+console.log(myCurried(1, 2)(3))// 6
+
+function curry(fn) {
+  return function curriedFn (...args) {
+    if(args.length < fn.length) {
+      return function () {
+        return curriedFn(...args.concat(Array.from(arguments)))
+        // return fn(...args, ...arguments) // 这样写也是一样的
+      }
+    }else {
+      return fn(...args)
+    }
+    
+  }
+}
+4. 总结
+柯里化可以让我们给一个函数传递较少的参数得到一个已经记住了某些固定参数的新函数
+这是一种对函数参数的‘缓存’
+让函数变得更灵活，让函数的粒度更细
+可以把多元函数转换成一元函数，可以组合使用函数产生强大的功能
+五、函数组合
+如果一个函数要经过多个函数处理才能得到最终值，这个时候可以把中间过程的函数合并成一个函数。
+
+函数就像是数据的管道，函数组合就是把这些管道连接起来，让数据穿过多个管道形成最终结果
+函数组合默认是从右到左执行
+function compose(f, g) {
+  return function (value) {
+    return f(g(value))
+  }
+}
+
+function reverse (arr) {
+  return arr.reverse()
+}
+
+function first (arr) {
+  return arr[0]
+}
+
+const last = compose(first, reverse)
+
+console.log(last([1, 2, 3, 4])) // 4
+1. lodash中的组合函数flow、flowRight
+lodash中组合函数flow()或者flowRight(),他们都可以组合多个函数
+flow()是从左到右运行
+flowRight()是从右到左运行，使用的更多一些
+const _ = require('lodash')
+
+const reverse = arr => arr.reverse()
+const first = arr => arr[0]
+const toUpper = str => str.toUpperCase()
+
+const f = _.flowRight(toUpper, first, reverse)
+
+console.log(f(['one', 'two', 'three'])) // THREE
+模拟实现flowRight：
+
+// function compose (...args) {
+//   return function (value) {
+//     return args.reverse().reduce(function (acc, fn) {
+//       return fn(acc)
+//     }, value)
+//   }
+// }
+
+// 将上面的写法修改成箭头函数
+const compose = (...args) => value => args.reverse().reduce((acc, fn) => fn(acc), value)
+
+const reverse = arr => arr.reverse()
+const first = arr => arr[0]
+const toUpper = str => str.toUpperCase()
+
+const f = compose(toUpper, first, reverse)
+
+console.log(f(['one', 'two', 'three'])) // THREE
+2. 函数组合要满足结合律：
+我们既可以把g和h组合，还可以把f和g组合，结果都是一样的
+
+const _ = require('lodash')
+
+const f = _.flowRight(_.toUpper, _.first, _.reverse)
+console.log(f(['one', 'two', 'three'])) // THREE
+
+const f2 = _.flowRight(_.flowRight(_.toUpper, _.first), _.reverse)
+console.log(f2(['one', 'two', 'three'])) // THREE
+
+const f3 = _.flowRight(_.toUpper, _.flowRight(_.first, _.reverse))
+console.log(f3(['one', 'two', 'three'])) // THREE
+3. 调试
+// NEVER SAY DIE --> never-say-die
+
+const _ = require('lodash')
+
+const split = _.curry((sep, str)=>_.split(str, sep))
+// 为什么要调换两个参数的位置？因为要保证函数只有一个参数的函数，那就要通过柯里化实现。
+// 而柯里化想要保留一个参数，那就只能保留最后一个参数，所以要把str放到最后
+
+const join = _.curry((sep, arr) => _.join(arr, sep))
+
+const map = _.curry((fn, arr) => _.map(arr, fn))
+
+const log = v => {
+  console.log(v)
+  return v
+}
+
+const trace = _.curry((tag, v) => {
+  console.log(tag, v)
+  return v
+})
+
+// const f = _.flowRight(join('-'), log, _.toLower, split(' ')) // n-e-v-e-r-,-s-a-y-,-d-i-e
+// const f = _.flowRight(join('-'), log, split(' '), _.toLower) // never-say-die
+const f = _.flowRight(join('-'), trace('map之后'), map(_.toLower), trace('split之后'), split(' ')) // never-say-die
+console.log(f('NEVER SAY DIE'))
+4. lodash-fp模块
+lodash的fp模块提供了实用的对函数式编程友好的方法, 函数优先，数据在后
+提供了不可变auto-curried iteratee-first data-last的方法
+// lodash的fp模块
+// NEVER SAY DIE --> never-say-die
+
+const fp = require('lodash/fp')
+
+const f = fp.flowRight(fp.join('-'), fp.map(fp.toLower), fp.split(' '))
+console.log(f('NEVER SAY DIE')) // never-say-die
+lodash与lodash-fp中map的区别
+
+const _ = require('lodash')
+const fp = require('lodash/fp')
+
+// lodash中的map中的函数的参数有三个：(item, index, array)
+console.log(_.map(['23', '8', '10'], parseInt)) // [ 23, NaN, 2 ]
+// parseInt('23', 0, array) 第二个参数是0，则是10进制
+// parseInt('8', 1, array) 第二个参数是1，不合法，输出NaN
+// parseInt('10', 2, array) 第二个参数是2，表示2进制，输出2
+
+// lodashFp中的map中的函数的参数有1个：(item)
+console.log(fp.map(parseInt, ['23', '8', '10'])) // [ 23, 8, 10 ]
+5. Pointfree模式
+我们可以在数据处理的过程中定义成与数据无关的合成运算，不需要用到代表数据的那个参数，只要把简单的运算步骤合成到一起，在使用这种模式之前我们需要定义一些辅助的基本运算函数。
+
+不需要指明处理的函数
+只需要合成运算过程
+需要定义一些辅助的基本运算函数
+// point free 函数的组合
+// Hello   World => hello_world
+
+const fp = require('lodash/fp')
+
+const f = fp.flowRight(fp.replace(/\s+/g, '_'), fp.toLower)
+console.log(f('Hello   World')) // hello_world
+案例：把一个字符串中的首字母提取并转换成大写，使用. 作为分隔符
+
+// world wild web ==> W. W. W
+const fp = require('lodash/fp')
+// const firstLetterToUpper = fp.flowRight(fp.join('. '), fp.map(fp.first), fp.map(fp.toUpper), fp.split(' '))
+const firstLetterToUpper = fp.flowRight(fp.join('. '), fp.map(fp.flowRight(fp.first, fp.toUpper)), fp.split(' '))
+console.log(firstLetterToUpper('world wild web')) // W. W. W
+六、Functor(函子)
+1. 什么是Functor：
+容器：包含值和值的变形关系（这个变性关系就是函数）
+函子：是一个特殊的容器，通过一个普通的对象来实现，该对象具有map方法，map方法可以运行一个函数对值进行处理（变性关系）
+class Container {
+  constructor(value) {
+    this._value = value
+  }
+  map (fn) {
+    return new Container(fn(this._value))
+  }
+}
+
+let r = new Container(5)
+.map(x=>x+1)
+.map(x=>x*x)
+// .map(console.log)
+console.log(r) // Container { _value: 36 }
+使用静态方法创建对象：
+
+class Container {
+  static of (value) {
+    return new Container(value)
+  }
+  constructor(value) {
+    this._value = value
+  }
+  map (fn) {
+    return Container.of(fn(this._value))
+  }
+}
+
+let r = Container.of(5)
+.map(x => x+2)
+.map(x => x*x)
+
+console.log(r) // Container { _value: 49 }
+2. 总结
+函数式编程的运算不直接操作值，而是由函子完成
+函子就是一个实现了map契约的对象
+我们可以把函子想象成一个盒子，这个盒子封装了一个值
+想要处理盒子中的值，我们需要给盒子的map方法传递一个处理值的函数（纯函数），由这个番薯来对值进行处理
+最终map方法返回一个包含新值的盒子（函子）
+3. MayBe函子
+普通函子出现异常会变得不纯，MayBe可以处理异常值
+
+class MayBe {
+  static of (value) {
+    return new MayBe(value)
+  }
+
+  constructor(value) {
+    this._value = value
+  }
+  map (fn) {
+    return this.isNothing() ? MayBe.of(null) : MayBe.of(fn(this._value))
+  }
+
+  isNothing () {
+    return this._value === null || this._value === undefined
+  }
+}
+
+let r = MayBe.of('hello')
+.map(x => x.toUpperCase())
+console.log(r) // MayBe { _value: 'HELLO' }
+
+let r2 = MayBe.of(null)
+.map(x => x.toUpperCase())
+console.log(r2) // MayBe { _value: null }
+
+let r3 = MayBe.of('hello world')
+.map(x => x.toUpperCase())
+.map(x => null)
+.map(x => x.split(' '))
+console.log(r3) // MayBe { _value: null } 无法知道null是哪里发生的
+4. Either函子
+Either 两者中的任何一个，类似于if…else…的处理
+异常会让函数变得不纯，Either函子可以用来做异常处理
+Left存异常信息，Right存正常信息
+
+class Left {
+  static of (value) {
+    return new Left(value)
+  }
+
+  constructor (value) {
+    this._value = value
+  }
+
+  map (fn) {
+    return this
+  }
+}
+
+class Right {
+  static of (value) {
+    return new Right(value)
+  }
+
+  constructor (value) {
+    this._value = value
+  }
+
+  map (fn) {
+    return Right.of(fn(this._value))
+  }
+}
+
+let r1 = Right.of(12)
+.map(x => x + 2)
+console.log(r1)
+let r2 = Left.of(12) // Right { _value: 14 }
+.map(x => x + 2)
+console.log(r2) // Left { _value: 12 }
+
+function parseJSON (str) {
+  try {
+    return Right.of(JSON.parse(str))
+  } catch (e) {
+    return Left.of({error: e.message})
+  }
+}
+
+let r3 = parseJSON('{name: jal}')
+console.log(r3) // Left { _value: { error: 'Unexpected token n in JSON at position 1' } }
+let r4 = parseJSON('{"name": "jal"}')
+console.log(r4) // Right { _value: { name: 'jal' } }
+let r5 = r4.map(x => x.name.toUpperCase())
+console.log(r5) // Right { _value: 'JAL' }
+5. IO函子
+IO函子中的_value是一个函数，这里是把函数作为值来处理
+IO函子可以把不纯的动作存储到_value中，延迟执行这个不纯的操作(惰性执行)，包装当前的操作纯
+把不纯的操作交给调用者处理
+const fp = require('lodash')
+
+class IO {
+  static of (value) {
+    return new IO(function () {
+      return value
+    })
+  }
+
+  constructor (fn) {
+    this._value = fn
+  }
+
+  map (fn) {
+    return new IO(fp.flowRight(fn, this._value))
+  }
+}
+
+const r = IO.of(process).map(p => p.execPath)
+console.log(r) // IO { _value: [Function (anonymous)] }
+console.log(r._value()) // /usr/local/Cellar/node/13.6.0/bin/node
+5. folktale Task函子
+Task函子处理异步执行
+
+异步任务的实现过于复杂，我们使用folktale中的Task来演示
+folktale：一个标准的函数式编程库
+和lodash、ramda不同的是，他没有提供很多功能函数
+只提供了一些函数式处理的操作，例如：compose、curry等，一些函子Task、Either、MayBe等
+// folktale的使用
+const { compose, curry } = require('folktale/core/lambda')
+const { toUpper, first } = require('lodash/fp')
+// curry 第一个参数写上参数的个数
+const f = curry(2, (x, y) => x + y)
+console.log(f(1, 2)) // 3
+console.log(f(1)(2)) // 3
+
+// folktale中的compose相当于lodash中的flowRight
+const f2 = compose(toUpper, first)
+console.log(f2(['one', 'two'])) // ONE
+folktale(2.3.2)2.x中的Task和1.0中的Task区别很大，1.0这种的用法更接近我们现在演示的函子
+这里以2.3.2来演示
+// Task 处理异步任务
+const fs = require('fs')
+const { task } = require('folktale/concurrency/task')
+// 柯里化的方法：split、find
+const { split, find } = require('lodash/fp')
+function readFile (filename) {
+  // 返回一个函子
+  return task(resolver => {
+    fs.readFile(filename, 'utf-8', (err, data) => {
+      if (err) {
+        resolver.reject(err)
+      }
+      resolver.resolve(data)
+    })
+  })
+}
+
+readFile('package.json')
+.map(split('\n'))
+.map(find(x => x.includes('version')))
+.run()
+.listen({
+  onRejected: err => {
+    console.log(err)
+  },
+  onResolved: value => {
+    console.log(value) //   "version": "1.0.0",
+  }
+})
+6. Pointed函子
+Pointed函子是实现了of静态方法的函子
+of方法是为了避免使用new来创建对象，更深层的含义是of方法用来把值放到上下文Context（把值放到容器中，使用map来处理值）
+class Container {
+  static of (value) {
+    return new Container(value)
+  }
+  constructor(value) {
+    this._value = value
+  }
+  map (fn) {
+    return Container.of(fn(this._value))
+  }
+}
+7. Monad(函子)
+Monad函子是可以变扁的Pointed函子，IO(IO(x))
+一个函子如果具有join和of两个方法并遵守一些定律就是一个Monad
+const fp = require('lodash')
+const fs = require('fs')
+class IO {
+  static of (value) {
+    return new IO(function () {
+      return value
+    })
+  }
+
+  constructor (fn) {
+    this._value = fn
+  }
+
+  map (fn) {
+    return new IO(fp.flowRight(fn, this._value))
+  }
+
+  join () {
+    return this._value()
+  }
+
+  // 当fn返回一个函子的时候，用flatMap拍平
+  flatMap (fn) {
+    return this.map(fn).join()
+  }
+}
+
+const readFile = function (filename) {
+  return new IO(function () {
+    return fs.readFileSync(filename, 'utf-8')
+  })
+}
+
+const print = function (x) {
+  return new IO(function () {
+    console.log(x)
+    return x
+  })
+}
+
+// const cat = fp.flowRight(print, readFile)
+// // IO(IO(x))
+// // const r = cat('package.json')._value() // IO { _value: [Function (anonymous)] }
+// const r = cat('package.json')._value()._value()
+
+const r = readFile('package.json')
+.map(fp.toUpper)
+.flatMap(print)
+.join()
+
+console.log(r)
+文章内容输出来源：拉勾教育大前端高薪训练营
