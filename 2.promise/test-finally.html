@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise finally 方法的实现 </title>
+</head>
+<body>
+    <script>
+        function p1() {
+            return new Promise(function (resolve, reject) {
+                resolve( 'Hello')
+            })
+        }
+        // 1. finally方法特点: 无论这个promise 是成功还是失败, 最终finally方法都要执行一次
+        // 2. 在finally 方法的后面, 使用then方法拿到最终返回的结果 value
+
+        p1().finally(()=>{
+            console.log('finally');
+        }).then(value=> console.log(value))
+  </script>
+</body>
+</html>

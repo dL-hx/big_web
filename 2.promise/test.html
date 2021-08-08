@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise测试</title>
+</head>
+<body>
+    <script>
+        // 演示Promise对象自返回 错误
+        var promise = new Promise(function (resolve, reject) {
+            resolve(100)
+        });
+
+        var p1 = promise.then(function (value) {
+            console.log('value', value);
+            return p1
+        })
+
+        p1.then(function () {
+            
+        }, function (reason) {// 失败原因
+            console.log(reason.message);
+            
+        })
+    </script>
+</body>
+</html>

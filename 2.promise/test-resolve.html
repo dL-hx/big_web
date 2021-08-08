@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise resolve 方法的实现 </title>
+</head>
+<body>
+    <script>
+        function p1() {
+            return new Promise(function (resolve, reject) {
+                resolve( 'Hello')
+            })
+        }
+        // Promise resolve 方法返回的还是一个 Promise, 可以用 then 获取返回值
+
+        // 将10 包裹为Promise对象
+        Promise.resolve(10).then(value => console.log(value))// 10
+        // 接收一个Promise 对象 ,可以用 then 获取返回值
+        Promise.resolve(p1()).then(value => console.log(value))//  'Hello'
+    </script>
+</body>
+</html>

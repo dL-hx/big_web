@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise测试---then方法的参数变成可选参数</title>
+</head>
+<body>
+    <script>
+        // 演示Promise对象自返回 错误
+        var promise = new Promise(function (resolve, reject) {
+            resolve(100)
+        });
+
+      
+        promise
+        .then(value=>value) // 前两次promise pending 回向下传递
+        .then(value=>value)
+        .then((value)=>{console.log(value);}) // 会在这次拿到pending状态,    100
+    </script>
+</body>
+</html>

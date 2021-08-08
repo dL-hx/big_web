@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise测试---all 方法使用</title>
+</head>
+
+<body>
+    <script>
+        // 演示Promise对象自返回 错误
+        var p1 = function () {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve('p1')
+                }, 2000)
+            });
+        }
+
+
+        var p2 = function () {
+            return new Promise(function (resolve, reject) {
+                resolve('p2')
+            });
+        }
+
+
+        Promise.all(['a', 'b', p1(),p2(),'c'])
+        .then(result=>{
+            console.log(result);
+            //  ["a", "b", "p1", "p2", "c"]
+        })
+    </script>
+</body>
+
+</html>
