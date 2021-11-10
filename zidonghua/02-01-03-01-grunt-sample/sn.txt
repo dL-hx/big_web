@@ -1,0 +1,13 @@
+yarn init --yes
+
+添加grunt 模块
+yarn add grunt
+
+
+运行任务
+node_modules\.bin\grunt foo
+
+yarn grunt foo
+
+查看帮助信息
+yarn grunt --help
