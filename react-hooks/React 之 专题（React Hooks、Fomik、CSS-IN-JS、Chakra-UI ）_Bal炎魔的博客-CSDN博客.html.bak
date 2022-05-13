@@ -15,15 +15,7 @@
     <meta name="applicable-device" content="pc">
     <link href="https://g.csdnimg.cn/static/logo/favicon32.ico" rel="shortcut icon" type="image/x-icon">
     <title>React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客</title>
-    <script type="text/javascript" charset="utf-8" async="" src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/apiaccept"></script><script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/push.js.下载"></script><script type="text/javascript" async="" src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/saved_resource"></script><script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/hm.js.下载"></script><script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/push.js(1).下载" id="ttzz"></script><script>
-      (function(){ 
-        var el = document.createElement("script"); 
-        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
-        el.id = "ttzz"; 
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(el, s);
-      })(window)
-    </script>
+
         <meta name="keywords" content="React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）">
         <meta name="csdn-baidu-search" content="{&quot;autorun&quot;:true,&quot;install&quot;:true,&quot;keyword&quot;:&quot;React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）&quot;}">
     <meta name="description" content="React 之 专题（React Hooks）1、React Hooks 介绍1.1 React Hooks 是用来做什么的对函数型组件进行增强, 让函数型组件可以存储状态, 可以拥有处理副作用的能力.让开发者在不使用类组件的情况下, 实现相同的功能.1.2 类组件的不足 (Hooks 要解决的问题)缺少逻辑复用机制为了复用逻辑增加无实际渲染效果的组件，增加了组件层级 代码显示十分臃肿增加了调试的难度以及运行效率的降低类组件经常会变得很复杂难以维护将一组相干的业务逻辑拆分到">
@@ -31,27 +23,7 @@
         <link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/detail_enter-bf8def7696.min.css">
         <link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/skin-sea-d3a08c2048.min.css">
     <script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/jquery-1.9.1.min.js.下载" type="text/javascript"></script>
-    <script type="text/javascript">
-        var isCorporate = false;//注释删除enterprise
-        var username =  "weixin_44479322";
-        var skinImg = "white";
-        var blog_address = "https://blog.csdn.net/weixin_44479322";
-        var currentUserName = "";
-        var isOwner = false;
-        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/weixin_44479322/article/details/116001043";
-        var blogUrl = "https://blog.csdn.net/";
-        var avatar = "https://profile.csdnimg.cn/0/0/9/3_weixin_44479322";
-        var articleTitle = "React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）";
-        var articleDesc = "React 之 专题（React Hooks）1、React Hooks 介绍1.1 React Hooks 是用来做什么的对函数型组件进行增强, 让函数型组件可以存储状态, 可以拥有处理副作用的能力.让开发者在不使用类组件的情况下, 实现相同的功能.1.2 类组件的不足 (Hooks 要解决的问题)缺少逻辑复用机制为了复用逻辑增加无实际渲染效果的组件，增加了组件层级 代码显示十分臃肿增加了调试的难度以及运行效率的降低类组件经常会变得很复杂难以维护将一组相干的业务逻辑拆分到";
-        var articleTitles = "React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客";
-        var nickName = "Bal炎魔";
-        var articleDetailUrl = "https://blog.csdn.net/weixin_44479322/article/details/116001043";
-        if(window.location.host.split('.').length == 3) {
-            blog_address = blogUrl + username;
-        }
-        var skinStatus = "White";
-        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
-    </script>
+
     <script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/saved_resource(1)" type="text/javascript"></script>
     <script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/report.js.下载" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/sandalstrap.min.css">
@@ -60,7 +32,7 @@
             display: none
         }
     </style>
-    <script src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/ds.js.下载"></script>
+
 <link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/csdn-toolbar-default.css"><script type="text/javascript" src="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/csdn-notification.js.下载"></script><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/user-login.css"><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/collection-box.css"><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/user-tooltip.css"><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/user-medal.css"><style type="text/css">pre{position: relative}pre:hover .hljs-button{display: block}.hljs-button{display: none;position: absolute;right: 4px;top: 4px;font-size: 12px;color: #4d4d4d;background-color: white;padding: 2px 8px;margin: 8px;border-radius: 4px;cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);}.hljs-button:after{content: attr(data-title)}code .hljs-button{margin: 2px 8px;}</style><style type="text/css">.hljs-ln{border-collapse:collapse}            .hljs-ln td{padding:0}            .hljs-ln-n{text-align: right;padding-right: 8px;}            .hljs-ln-n:before{content:attr(data-line-number)}</style><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/side-toolbar.css"><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/csdn-footer.css"><style type="text/css">.leftPop{width:330px;position: fixed;font-size: 12px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.10);padding:16px 40px 16px 16px;z-index: 100;}.leftPop .leftPop-close{position: absolute;right: 20px;fill:#70B8F0;cursor: pointer;}</style><link rel="stylesheet" type="text/css" href="./React 之 专题（React Hooks、Fomik、CSS-IN-JS、Chakra-UI ）_Bal炎魔的博客-CSDN博客_files/shop-window.css"><script>//remove baidu search ad
 var _countAA = 0
 function doBBBd(){}
