@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <!--    <p>{{ list[0] }}</p>
+        <p>{{ list[1] }}</p>
+        <p>{{ list[2] }}</p>
+        <p>{{ list[3] }}</p>
+        <p>{{ list[4] }}</p>
+        <p>{{ list[5] }}</p>-->
+
+    <!--    <p v-for="item in list">{{ item }}</p>-->
+    <p v-for="(user, i) in list">索引值 :{{ i }} -------Id :{{ user.id }} ----- 名字:{{ user.name }}</p>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list: [{
+                id: 1,
+                name: 'zs1'
+            }, {
+                id: 2,
+                name: 'zs2'
+            }, {
+                id: 3,
+                name: 'zs3'
+            }, {
+                id: 4,
+                name: 'zs4'
+            }, {
+                id: 5,
+                name: 'zs5'
+            }
+
+
+            ]
+        },
+        methods: {}
+    })
+</script>
+</body>
+</html>

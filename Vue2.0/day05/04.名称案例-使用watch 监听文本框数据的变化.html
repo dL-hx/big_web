@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 分析: -->
+        <!-- 1.我们要监听到 文本框数据的改变, 这样才能指定, 什么是时候去 拼接出 一个fullname-->
+
+        <!-- 2.如何监听到 文本框数据的改变呢??? -->
+
+
+        <input type="text" v-model="firstname">+
+
+        <input type="text" v-model="lastname">=
+
+        <input type="text" v-model="fullname">
+
+    </div>
+
+    <script>
+        //创建Vue实例,得到 ViewModel
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                firstname: '',
+                lastname: '',
+                fullname: ''
+            },
+            watch: {// 使用这个属性, 可以监视 data 中指定数据的变化, 然后触发这个watch 中 对应function 处理函数
+                'firstname': function (newVal, oldVal) {
+                    // console.log('监视到了 firstname  的变化');
+                    // this.fullname = this.firstname + this.lastname
+
+                    // console.log(newVal + '-----' + oldVal);
+                    this.fullname = newVal + '-' + this.lastname
+                },
+
+                'lastname': function (newVal, oldVal) {
+                    console.log('监视到了 lastname  的变化');
+
+                    this.fullname = this.firstname + '-' + newVal
+                },
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

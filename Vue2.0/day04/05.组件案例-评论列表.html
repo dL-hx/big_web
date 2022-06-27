@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <comment-box @func='loadComments'></comment-box>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list" :key="item.id">
+                <span class="badge">评论人:{{ item.user }}</span>
+                {{ item.content }}
+            </li>
+
+        </ul>
+
+
+    </div>
+
+
+    <template id='tmp1'>
+        <div>
+            <div class="form-group">
+                <label for="">评论人:</label>
+                <input type="text" class="form-control" v-model="user">
+            </div>
+
+            <div class="form-group">
+                <label for="">评论内容:</label>
+                <textarea class="form-control" v-model="content"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="button" value="发表评论" class="btn btn-primary" @click="postComment">
+            </div>
+        </div>
+    </template>
+    <script>
+
+        var commentBox = {
+            template: '#tmp1',
+            data() {
+                return {
+                    user: '',
+                    content: ''
+                }
+            },
+
+            methods: {
+                postComment() {// 发表评论方法
+                    // 分析发表评论逻辑
+                    // 1. 评论数据存到哪里去了, 存放到localStorage 中
+                    // localStorage.setItem('cmts', '')
+                    // 2. 想办法组织一个最新的评论数据对象
+                    // 3. 想办法, 把第二步得到的评论对象, 保存到  localStorage 中
+                    // 3.1 localStorage 只支持 存放字符串数据, 
+                    // 存放, 先调用JSON.stringfy() 
+
+                    // 3.2 在保存 最新的评论数据之前, 要先从localStorage 获取之前的评论数据(string)
+                    // 转换为一个数组对象, 然后, 把最新的评论 , push 到这个数组
+
+                    // 3.3 如果获取到的localStorage 中的评论字符串, 为空, 
+                    // 为空不存在,|| 可以返回一个 '[]', 让JSON.parse 去转换
+
+                    // 3.4 把最新的评论列表数据, 再次调用JSON.stringfy 转换为 数组字符串, 然后调用 localStorage.setItem()
+                    var comment = {
+                        id: Date.now(),
+                        user: this.user,
+                        content: this.content,
+                    }
+
+                    // 从 localStorage 获取所有的评论
+                    var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+
+                    // list.push(comment)// 插入数组末尾
+                    list.unshift(comment) // 插入数组开头
+                    // 重新保存最新的评论数据
+                    localStorage.setItem('cmts', JSON.stringify(list))
+
+                    this.user = this.content = ''
+
+
+                    // 在合适的时机, 调用父组件的方法(loadComments)
+                    // 此时, 需要将父组件的  loadComments 方法 通过 @[事件机制] 传递给子组件
+
+                    this.$emit('func' )
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    { id: Date.now(), user: '李白', content: '天生我才必有用' },
+                    { id: Date.now(), user: '江小白', content: '劝君更进一杯酒' },
+                    { id: Date.now(), user: '小马', content: '我姓马, 风吹草低见牛羊的马' },
+                ]
+            },
+            methods: {
+                loadComments() {// 从本地存储中获取 list 存储对象
+                    var list = JSON.parse(localStorage.getItem('cmts') || '[]')// 
+                    this.list = list
+
+                }
+            },
+
+            beforeCreate () {
+                // 注意: 这里不能调用loadComments 方法, 因为 在指向这个钩子函数的时候, data 和methods 都还没有被初始化
+            },
+            created() {
+                // this 为当前 vm 实例
+              this.loadComments()
+            },
+            components: {
+                'comment-box': commentBox
+            }
+        })
+    </script>
+</body>
+
+</html>

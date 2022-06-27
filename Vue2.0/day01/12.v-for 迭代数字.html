@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--    in后面我们可用放普通数组，对象数组，对象，还可以放数字-->
+        <p v-for="count in 10">这是{{ count }} 次 循环 </p> <!--注意：如果使用v-for迭代数字的话，前面的count值从1开始-->
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+
+            }
+        })
+    </script>
+</body>
+</html>

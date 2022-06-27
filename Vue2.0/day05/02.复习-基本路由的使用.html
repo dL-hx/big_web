@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <!-- 1.导入包 -->
+    <script src="./lib/vue-router-3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 容器 -->
+        <router-view></router-view>
+    </div>
+
+    <script>
+        // 2. 创建子组件
+        var login = {
+            template: '<h3>这是登录子组件, 这个组件是 奔波霸开发的</h3>'
+        }
+
+        var register = {
+            template: '<h3>这是注册子组件, 这个组件是霸波奔开发的</h3>'
+        }
+
+        // 创建一个路由对象
+        var router = new VueRouter({
+            routes: [// 这是路由规则数组
+                { path: '/', redirect: '/login' },
+                { path: '/login', component: login },
+                { path: '/register', component: register }
+            ],
+            linkActiveClass: 'myactive'// 和激活相关的类
+        })
+        //创建Vue实例,得到 ViewModel
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            router: router
+        });
+    </script>
+</body>
+
+</html>

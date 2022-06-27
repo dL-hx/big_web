@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="父组件按钮" @click="getMsg1">
+        <p ref='pRef'>张三</p>
+        <com1 ref='com1Ref' @func='getMsg' :data1='data1'></com1>
+    </div>
+
+    <template id="tmpl">
+        <div>
+            <h1>{{ msg }}: {{data1}}</h1>
+            <input type="button" value="按钮" @click="sendMsg">
+        </div>
+    </template>
+    <script>
+        var com1 = {
+            template: '#tmpl',
+            data() {
+                return {
+                    msg: '子组件的数据'
+                }
+            },
+            props: ['data1'],
+            methods: {
+                sendMsg() {
+                    console.log('111121');
+                    // this.$emit('func', this.msg)
+                }
+            }
+        }
+        //创建Vue实例,得到 ViewModel
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                data1: '123456'
+            },
+            methods: {
+                getMsg(msg) {
+                    console.log('object', msg);
+                },
+                getMsg1(){
+                    //  this.$refs.com1Ref.sendMsg()
+                    this.$refs.pRef.innerText = '李四'
+                }
+
+            },
+            components: {
+                com1: com1
+            }
+        });
+    </script>
+</body>
+
+</html>

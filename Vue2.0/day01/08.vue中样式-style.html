@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+
+</head>
+<body>
+<div id="app">
+<!--    <h1 style="color: red">这是一个很大很大的H1, 大到你无法想象!!</h1>-->
+<!--   1.  对象就是无序键值对的集合-->
+<!--    如果 键的属性 含有 '-'  需要将属性名包裹引号
+    如: <h1 :style="{'font-weight':200 }" />
+ -->
+<!--    <h1 :style="{ color:'red', 'font-weight':200 }">这是一个很大很大的H1, 大到你无法想象!!</h1>-->
+
+
+<!--    2. 将样式对象 移动到data 身上-->
+<!--    <h1 :style="styleObj1">这是一个很大很大的H1, 大到你无法想象!!</h1>-->
+
+
+
+<!--    3. 在style 对象上 通过数组, 引用 多个 'data' 上的样式对象-->
+
+    <h1 :style="[styleObj1, styleObj2]">这是一个很大很大的H1, 大到你无法想象!!</h1>
+
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            //2. 将样式对象 移动到data 身上
+            styleObj1:{ color:'red', 'font-weight':200 },
+
+            // 3. 多个对象样式 , 通过数组进行引入
+            styleObj2:{'font-style':'italic'}
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

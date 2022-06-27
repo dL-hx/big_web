@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+      <!-- 还是直接使用标签的形式 , 引入自己的组件-->
+      <mycom2></mycom2>   
+    </div>
+
+    <script>
+
+        Vue.component('mycom2',{
+            // 注意:不论是那种方式创建出来的组件, 组件的template 属性 指向的模板内容, 必须[有且只有唯一的一个根元素]
+            template:'<div><h3>这是直接使用Vue.component 创建出来的组件</h3><span>123</span></div>'
+        })
+
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+
+            },
+            methods: {
+              
+            },
+        })
+    </script>
+</body>
+</html>

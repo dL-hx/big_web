@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+<h4>{{ msg }}</h4>
+<!--    表单元素 -->
+<!--    属性绑定 v-bind-->
+<!--    v-bind 只能 实现数据的单向绑定, 从M自动绑定到V, 无法实现数据的双向绑定 -->
+<!--    <input type="text" v-bind:value="msg" style="width: 100%">-->
+<!--   v-model 实现数据的表单元素的双向绑定  M-V V-M -->
+<!--    注意: v-model  只能运用在表单元素中-->
+<!--    input(radio, text,address, email...)   select  checkbox  textarea-->
+    <input type="text" v-model="msg" v-bind:value="msg" style="width: 100%">
+
+</div>
+
+<script>
+  let vm = new Vue({
+    el: "#app",
+    data:{
+        msg:'大家都是好学生, 爱敲代码, 爱学习, 简直是完美, 没瑕疵'
+    },
+    methods:{// 这个methods 属性中定义了当前Vue 实例中所用可用的方法
+      onClick:function(){
+        alert('点击')
+      },
+
+    }
+
+
+  });
+
+</script>
+</body>
+</html>
+

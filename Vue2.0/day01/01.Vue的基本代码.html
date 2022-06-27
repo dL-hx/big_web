@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    1. 导入Vue的包-->
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<!--将来new 的Vue 实例, 会控制这个 元素中的所有内容-->
+<div id="app">
+    <!-- Vue 实例所控制的这个元素区域，就是我们的 V  -->
+    <p>{{ msg }}</p>
+</div>
+
+
+<script>
+    // 创建一个Vue 的实例
+    // 当我们导入包之后, 在浏览器内存中, 就多了一个 Vue 的构造函数
+    //  注意：我们 new 出来的这个 vm 对象，就是我们 MVVM中的 VM调度者
+    var vm= new Vue({
+      el:'#app', // 表示, 当前我们 new 的这个 Vue 实例, 要控制页面上的哪个区域
+      // 这里的data 就是 MVVM 中的M, 专门用来保存 每个页面的数据的
+      data:{// data 属性中, 存放的是 el 中 要用到的数据
+        msg:'欢迎学习Vue' // 通过Vue 提供的指令, 很方便的就能把数据渲染到页面上, 程序员不在手动操作DOM元素上,【前端的Vue之类的框架，不提倡我们去手动操作DOM元素了】
+      }
+    })
+</script>
+</body>
+</html>
